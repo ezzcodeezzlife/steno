@@ -1,11 +1,12 @@
 "use client"
 import React, { useState, useRef } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function Home() {
   const [website, setWebsite] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [decodedText, setDecodedText] = useState('');
+  const [decodedText, setDecodedText] = useState(null);
   const [imgSrc, setImgSrc] = useState(null);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
@@ -76,7 +77,7 @@ export default function Home() {
           <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Encode and Download Image</button>
         </form>
         <canvas ref={canvasRef} style={{ display: 'none' }} />
-        <img ref={imgRef} src={imgSrc} style={{ display: imgSrc ? 'block' : 'none' }} alt="Encoded text" className="mt-4" />
+        <img ref={imgRef} src={imgSrc} style={{ display: imgSrc ? 'block' : 'none', maxWidth: '100%', height: 'auto' }} alt="Encoded text" className="mt-4" />
       </div>
       <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-green-200 w-1/2">
         <h2 className="text-2xl font-bold mb-4">Decode</h2>
@@ -84,9 +85,9 @@ export default function Home() {
         {decodedText && (
           <div className="mt-4 text-center">
             <p className="text-lg font-bold">Decoded Results:</p>
-            <p><span className="font-bold">Website:</span> {decodedText.website}</p>
-            <p><span className="font-bold">Email:</span> {decodedText.email}</p>
-            <p><span className="font-bold">Password:</span> {decodedText.password}</p>
+            <p><span className="font-bold">Website:</span> <a href={decodedText.website} target="_blank" rel="noopener noreferrer">{decodedText.website}</a> <CopyToClipboard text={decodedText.website}><button>Copy</button></CopyToClipboard></p>
+            <p><span className="font-bold">Email:</span> {decodedText.email} <CopyToClipboard text={decodedText.email}><button>Copy</button></CopyToClipboard></p>
+            <p><span className="font-bold">Password:</span> {decodedText.password} <CopyToClipboard text={decodedText.password}><button>Copy</button></CopyToClipboard></p>
           </div>
         )}
       </div>
